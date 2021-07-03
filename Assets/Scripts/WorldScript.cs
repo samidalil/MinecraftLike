@@ -18,7 +18,7 @@ public class WorldScript : MonoBehaviour
     private void Awake()
     {
         if (seed == 0)
-            seed = Random.Range(int.MinValue, int.MaxValue) / int.MaxValue;
+            seed = Random.Range(0, 9999999);
         blocks = new BlockType[width * height * width];
     }
 
@@ -43,7 +43,7 @@ public class WorldScript : MonoBehaviour
 
     private BlockType ComputeNoise(int x, int y, int z)
     {
-        float noiseValue = Mathf.PerlinNoise(x * z * .03f + seed, z * .03f + seed) * Mathf.PerlinNoise(x * .001f, z * x * .005f) * (1.5f + seed);
+        float noiseValue = Mathf.PerlinNoise((x + seed) * 0.04f, (z + seed) * 0.04f) * 17;
         float baseLandHeight = height * .3f + noiseValue;
 
         return y <= baseLandHeight ? BlockType.Base : BlockType.Empty;
